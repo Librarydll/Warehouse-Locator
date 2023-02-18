@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Warehouse.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class intiial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -81,6 +81,7 @@ namespace Warehouse.Infrastructure.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Title = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastUpdatedAt = table.Column<DateOnly>(type: "date", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
@@ -99,6 +100,7 @@ namespace Warehouse.Infrastructure.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Description = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastUpdatedAt = table.Column<DateOnly>(type: "date", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
@@ -245,6 +247,7 @@ namespace Warehouse.Infrastructure.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     UserId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastUpdatedAt = table.Column<DateOnly>(type: "date", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
@@ -270,6 +273,7 @@ namespace Warehouse.Infrastructure.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     UserId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastUpdatedAt = table.Column<DateOnly>(type: "date", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
@@ -292,8 +296,9 @@ namespace Warehouse.Infrastructure.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Title = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    SelfPrice = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    SelfPrice = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
                     MaterialCategoryId = table.Column<int>(type: "int", nullable: false),
+                    LastUpdatedAt = table.Column<DateOnly>(type: "date", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
@@ -316,11 +321,12 @@ namespace Warehouse.Infrastructure.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     BatchNumber = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    SelfPrice = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    SelfPrice = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
                     ReadyProductId = table.Column<int>(type: "int", nullable: false),
                     Count = table.Column<double>(type: "double", nullable: false),
                     UserId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastUpdatedAt = table.Column<DateOnly>(type: "date", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
@@ -351,6 +357,7 @@ namespace Warehouse.Infrastructure.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Count = table.Column<double>(type: "double", nullable: false),
                     ReadyProductId = table.Column<int>(type: "int", nullable: false),
+                    LastUpdatedAt = table.Column<DateOnly>(type: "date", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
@@ -372,6 +379,7 @@ namespace Warehouse.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ReadyProductId = table.Column<int>(type: "int", nullable: false),
+                    LastUpdatedAt = table.Column<DateOnly>(type: "date", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
@@ -392,10 +400,11 @@ namespace Warehouse.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Price = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
                     Count = table.Column<double>(type: "double", nullable: false),
                     MaterialId = table.Column<int>(type: "int", nullable: false),
-                    IncomeId = table.Column<int>(type: "int", nullable: true),
+                    IncomeId = table.Column<int>(type: "int", nullable: false),
+                    LastUpdatedAt = table.Column<DateOnly>(type: "date", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
@@ -405,7 +414,8 @@ namespace Warehouse.Infrastructure.Migrations
                         name: "FK_IncomeItems_Incomes_IncomeId",
                         column: x => x.IncomeId,
                         principalTable: "Incomes",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_IncomeItems_Materials_MaterialId",
                         column: x => x.MaterialId,
@@ -421,9 +431,11 @@ namespace Warehouse.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Count = table.Column<double>(type: "double", nullable: false),
                     MaterialId = table.Column<int>(type: "int", nullable: false),
-                    CurrentSelfPrice = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
-                    LastSelfPrice = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    CurrentSelfPrice = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
+                    LastSelfPrice = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
+                    LastUpdatedAt = table.Column<DateOnly>(type: "date", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
@@ -444,10 +456,11 @@ namespace Warehouse.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Price = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
                     Count = table.Column<double>(type: "double", nullable: false),
                     MaterialId = table.Column<int>(type: "int", nullable: false),
                     OutcomeId = table.Column<int>(type: "int", nullable: true),
+                    LastUpdatedAt = table.Column<DateOnly>(type: "date", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
@@ -473,11 +486,12 @@ namespace Warehouse.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Price = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
                     Title = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     IsAdditional = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     OrderId = table.Column<int>(type: "int", nullable: false),
+                    LastUpdatedAt = table.Column<DateOnly>(type: "date", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
@@ -501,6 +515,7 @@ namespace Warehouse.Infrastructure.Migrations
                     Title = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     OrderId = table.Column<int>(type: "int", nullable: true),
+                    LastUpdatedAt = table.Column<DateOnly>(type: "date", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
@@ -521,12 +536,13 @@ namespace Warehouse.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Count = table.Column<double>(type: "double", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
                     MaterialId = table.Column<int>(type: "int", nullable: false),
                     IsAdditional = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     OrderId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastUpdatedAt = table.Column<DateOnly>(type: "date", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
@@ -559,12 +575,13 @@ namespace Warehouse.Infrastructure.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Price = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
                     UsingCount = table.Column<double>(type: "double", nullable: false),
                     ReturnCount = table.Column<double>(type: "double", nullable: false),
                     DefectCount = table.Column<double>(type: "double", nullable: false),
                     MaterialId = table.Column<int>(type: "int", nullable: false),
                     OrderId = table.Column<int>(type: "int", nullable: false),
+                    LastUpdatedAt = table.Column<DateOnly>(type: "date", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
@@ -594,6 +611,7 @@ namespace Warehouse.Infrastructure.Migrations
                     MaterialId = table.Column<int>(type: "int", nullable: false),
                     Count = table.Column<double>(type: "double", nullable: false),
                     RecipeId = table.Column<int>(type: "int", nullable: false),
+                    LastUpdatedAt = table.Column<DateOnly>(type: "date", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>

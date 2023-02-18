@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Warehouse.Domain.Models;
 using Warehouse.Infrastructure.Data;
+using Warehouse.Web.Extensions;
 using Warehouse.Web.ViewModels;
 
 namespace Warehouse.Web.Pages.Incomes
@@ -38,45 +40,48 @@ namespace Warehouse.Web.Pages.Incomes
 
         public async Task<IActionResult> OnPostAsync()
         {
-            List<IncomeItem> incomeItemViewModels = new List<IncomeItem>();
-            for (int i = 0; i < Request.Form["MaterialId"].Count; i++)
+            var incomeItemViewModels = Request.Form.MapIncomeItemFromForm();
+            var income = new Income()
             {
-                if (!int.TryParse(Request.Form["MaterialId"][i],out int materialId))
-                {
-                    continue;
-                }
-				if (!decimal.TryParse(Request.Form["Price"][i], out decimal price))
-				{
-					continue;
-				}
-				if (!double.TryParse(Request.Form["Count"][i], out double count))
-				{
-					continue;
-				}
-
-				if (materialId == 0 || count <= 0 || price < 0)
-                {
-                    continue;
-                }
-                incomeItemViewModels.Add(new IncomeItem
-				{
-                    Count = count,
-                    MaterialId = materialId,
-                    Price = price,
-                });
-            }
-            var applicationUser = await _userManager.GetUserAsync(HttpContext.User);
-
-            _mainDbContext.Incomes.Add(new Income
-			{
                 IncomeDate = Income.IncomeDate,
                 Title = Income.Title,
-                UserId = applicationUser!.Id,
-                IncomeItems = incomeItemViewModels
-			});
+                IncomeItems = new List<IncomeItem>()
+            };
+            foreach (var grouped in incomeItemViewModels.GroupBy(x=>x.MaterialId))
+            {
+				var wareHouse = await _mainDbContext.MaterialWarehouses.FirstOrDefaultAsync(x => x.MaterialId == grouped.Key);
+                var price = grouped.FirstOrDefault().Price;
+                var count = grouped.Sum(x => x.Count);
+				if (wareHouse == null)
+				{
+					wareHouse = new MaterialWarehouse()
+					{
+						CurrentSelfPrice = price,
+						MaterialId = grouped.Key,
+						LastSelfPrice = price,
+						Count = count
+					};
+					_mainDbContext.MaterialWarehouses.Add(wareHouse);
+				}
+				else
+				{
+					wareHouse.Count += count;
+					_mainDbContext.Entry(wareHouse).State = EntityState.Modified;
+				}
+				income.IncomeItems.Add(new IncomeItem
+				{
+					Count = count,
+					MaterialId = grouped.Key,
+					Price = grouped.Key,
+				});
+			}
+			
+            var applicationUser = await _userManager.GetUserAsync(HttpContext.User);
+            income.UserId = applicationUser.Id;
+			_mainDbContext.Incomes.Add(income);
 
             await _mainDbContext.SaveChangesAsync();
-            return Page();
+            return Redirect("Index");
         }
     }
 }

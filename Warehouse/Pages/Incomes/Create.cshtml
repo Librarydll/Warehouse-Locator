@@ -13,7 +13,7 @@
 			<div class="row mb-4">
 				<div class="form-group col-2">
 					<label asp-for="@Model.Income.IncomeDate"></label>
-					<input asp-for="@Model.Income.IncomeDate" class="form-control" />
+					<input asp-for="@Model.Income.IncomeDate" class="form-control" asp-format="{0:yyyy-MM-dd HH:mm}" />
 				</div>
 				<div class="form-group col-4">
 					<label asp-for="@Model.Income.Title"></label>

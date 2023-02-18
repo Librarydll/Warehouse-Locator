@@ -42,6 +42,21 @@ namespace Warehouse.Infrastructure.Data
         public DbSet<ReadyProductWarehouse> ReadyProductWarehouses { get; set; }
         public DbSet<Recipe> Recipes { get; set; }
         public DbSet<RecipeItem> RecipeItems { get; set; }
-    }
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+			foreach (var property in modelBuilder.Model.GetEntityTypes()
+													  .SelectMany(t => t.GetProperties())
+													  .Where(p => p.ClrType == typeof(decimal) || p.ClrType == typeof(decimal?)))
+			{
+
+				property.SetPrecision(10);
+				property.SetScale(2);
+			}
+
+             base.OnModelCreating(modelBuilder);
+		}
+
+	}
    
 }

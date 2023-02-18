@@ -159,11 +159,15 @@ namespace Warehouse.Infrastructure.Migrations
                     b.Property<bool>("IsAdditional")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<DateOnly>("LastUpdatedAt")
+                        .HasColumnType("date");
+
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(65,30)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("Title")
                         .HasColumnType("longtext");
@@ -254,6 +258,9 @@ namespace Warehouse.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<DateOnly>("LastUpdatedAt")
+                        .HasColumnType("date");
+
                     b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
@@ -278,6 +285,9 @@ namespace Warehouse.Infrastructure.Migrations
 
                     b.Property<DateTime>("IncomeDate")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<DateOnly>("LastUpdatedAt")
+                        .HasColumnType("date");
 
                     b.Property<string>("Title")
                         .HasColumnType("longtext");
@@ -305,14 +315,18 @@ namespace Warehouse.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("IncomeId")
+                    b.Property<int>("IncomeId")
                         .HasColumnType("int");
+
+                    b.Property<DateOnly>("LastUpdatedAt")
+                        .HasColumnType("date");
 
                     b.Property<int>("MaterialId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(65,30)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
                     b.HasKey("Id");
 
@@ -332,11 +346,15 @@ namespace Warehouse.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<DateOnly>("LastUpdatedAt")
+                        .HasColumnType("date");
+
                     b.Property<int>("MaterialCategoryId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("SelfPrice")
-                        .HasColumnType("decimal(65,30)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("Title")
                         .HasColumnType("longtext");
@@ -356,6 +374,9 @@ namespace Warehouse.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<DateOnly>("LastUpdatedAt")
+                        .HasColumnType("date");
 
                     b.Property<string>("Title")
                         .HasColumnType("longtext");
@@ -380,6 +401,9 @@ namespace Warehouse.Infrastructure.Migrations
                     b.Property<bool>("IsAdditional")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<DateOnly>("LastUpdatedAt")
+                        .HasColumnType("date");
+
                     b.Property<int>("MaterialId")
                         .HasColumnType("int");
 
@@ -387,7 +411,8 @@ namespace Warehouse.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(65,30)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -410,14 +435,22 @@ namespace Warehouse.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<double>("Count")
+                        .HasColumnType("double");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
                     b.Property<decimal>("CurrentSelfPrice")
-                        .HasColumnType("decimal(65,30)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<decimal>("LastSelfPrice")
-                        .HasColumnType("decimal(65,30)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<DateOnly>("LastUpdatedAt")
+                        .HasColumnType("date");
 
                     b.Property<int>("MaterialId")
                         .HasColumnType("int");
@@ -444,11 +477,15 @@ namespace Warehouse.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<DateOnly>("LastUpdatedAt")
+                        .HasColumnType("date");
+
                     b.Property<int>("ReadyProductId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("SelfPrice")
-                        .HasColumnType("decimal(65,30)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -475,6 +512,9 @@ namespace Warehouse.Infrastructure.Migrations
                     b.Property<double>("DefectCount")
                         .HasColumnType("double");
 
+                    b.Property<DateOnly>("LastUpdatedAt")
+                        .HasColumnType("date");
+
                     b.Property<int>("MaterialId")
                         .HasColumnType("int");
 
@@ -482,7 +522,8 @@ namespace Warehouse.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(65,30)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
                     b.Property<double>("ReturnCount")
                         .HasColumnType("double");
@@ -507,6 +548,9 @@ namespace Warehouse.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<DateOnly>("LastUpdatedAt")
+                        .HasColumnType("date");
 
                     b.Property<DateTime>("OutcomeDate")
                         .HasColumnType("datetime(6)");
@@ -537,6 +581,9 @@ namespace Warehouse.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<DateOnly>("LastUpdatedAt")
+                        .HasColumnType("date");
+
                     b.Property<int>("MaterialId")
                         .HasColumnType("int");
 
@@ -544,7 +591,8 @@ namespace Warehouse.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(65,30)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
                     b.HasKey("Id");
 
@@ -566,6 +614,9 @@ namespace Warehouse.Infrastructure.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
+
+                    b.Property<DateOnly>("LastUpdatedAt")
+                        .HasColumnType("date");
 
                     b.Property<string>("Title")
                         .HasColumnType("longtext");
@@ -590,6 +641,9 @@ namespace Warehouse.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<DateOnly>("LastUpdatedAt")
+                        .HasColumnType("date");
+
                     b.Property<int>("ReadyProductId")
                         .HasColumnType("int");
 
@@ -608,6 +662,9 @@ namespace Warehouse.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<DateOnly>("LastUpdatedAt")
+                        .HasColumnType("date");
 
                     b.Property<int>("ReadyProductId")
                         .HasColumnType("int");
@@ -630,6 +687,9 @@ namespace Warehouse.Infrastructure.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<DateOnly>("LastUpdatedAt")
+                        .HasColumnType("date");
 
                     b.Property<int>("MaterialId")
                         .HasColumnType("int");
@@ -728,9 +788,11 @@ namespace Warehouse.Infrastructure.Migrations
 
             modelBuilder.Entity("Warehouse.Domain.Models.IncomeItem", b =>
                 {
-                    b.HasOne("Warehouse.Domain.Models.Income", null)
+                    b.HasOne("Warehouse.Domain.Models.Income", "Income")
                         .WithMany("IncomeItems")
-                        .HasForeignKey("IncomeId");
+                        .HasForeignKey("IncomeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Warehouse.Domain.Models.Material", "Material")
                         .WithMany()
@@ -738,13 +800,15 @@ namespace Warehouse.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Income");
+
                     b.Navigation("Material");
                 });
 
             modelBuilder.Entity("Warehouse.Domain.Models.Material", b =>
                 {
                     b.HasOne("Warehouse.Domain.Models.MaterialCategory", "MaterialCategory")
-                        .WithMany()
+                        .WithMany("Materials")
                         .HasForeignKey("MaterialCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -898,6 +962,11 @@ namespace Warehouse.Infrastructure.Migrations
             modelBuilder.Entity("Warehouse.Domain.Models.Income", b =>
                 {
                     b.Navigation("IncomeItems");
+                });
+
+            modelBuilder.Entity("Warehouse.Domain.Models.MaterialCategory", b =>
+                {
+                    b.Navigation("Materials");
                 });
 
             modelBuilder.Entity("Warehouse.Domain.Models.Order", b =>

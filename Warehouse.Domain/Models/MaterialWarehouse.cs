@@ -8,6 +8,7 @@ namespace Warehouse.Domain.Models
 {
     public class MaterialWarehouse : BaseEntity
     {
+        public double Count { get; set; }
         public int MaterialId { get; set; }
         public Material? Material { get; set; }
         public decimal CurrentSelfPrice { get; set; }
