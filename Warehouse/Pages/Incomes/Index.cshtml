@@ -1,0 +1,71 @@
+﻿@page
+@model Warehouse.Web.Pages.Incomes.IndexModel
+@{
+    ViewData["Title"] = "Incomes list";
+}
+<h2>Incomes</h2>
+<p>
+    <a asp-page="Create" type="button" class="btn btn-success">Create New</a>
+</p>
+
+<table class="table table-bordered table-striped table-sm">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Incomes[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Incomes[0].IncomeDate)
+            </th>
+            <th>
+               User
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Incomes)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IncomeDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.FullName)
+                </td>
+                <td style="width:10%">
+                    <a asp-page="./Edit" class="btn btn-sm btn-primary" asp-route-id="@item.Id">
+                        <i class="bi bi-pencil">
+
+                        </i>
+                    </a>
+                    <a asp-page="./Delete" class="btn btn-sm btn-danger" asp-route-id="@item.Id">
+                        <i class="bi bi-trash">
+
+                        </i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.Incomes.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Incomes.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.Incomes.PageIndex - 1)"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.Incomes.PageIndex + 1)"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>
+

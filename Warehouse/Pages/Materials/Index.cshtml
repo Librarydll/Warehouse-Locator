@@ -1,0 +1,70 @@
+﻿@page
+@model Warehouse.Web.Pages.Materials.IndexModel
+@{
+    ViewData["Title"] = "Materials list";
+}
+<h2>Materials</h2>
+<p>
+    <a asp-page="Create" type="button" class="btn btn-success">Create New</a>
+</p>
+
+<table class="table table-bordered table-striped table-sm">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Materials[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Materials[0].MaterialCategory!.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Materials[0].SelfPrice)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Materials)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaterialCategory!.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SelfPrice)
+                </td>
+                <td style="width:10%">
+                    <a asp-page="./Edit" class="btn btn-sm btn-primary" asp-route-id="@item.Id">
+                        <i class="bi bi-pencil">
+
+                        </i>
+                    </a>
+                    <a asp-page="./Delete" class="btn btn-sm btn-danger" asp-route-id="@item.Id">
+                        <i class="bi bi-trash">
+
+                        </i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.Materials.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Materials.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.Materials.PageIndex - 1)"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.Materials.PageIndex + 1)"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>

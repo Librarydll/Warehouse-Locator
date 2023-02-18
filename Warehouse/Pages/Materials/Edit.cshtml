@@ -1,0 +1,37 @@
+﻿@page
+@model Warehouse.Web.Pages.Materials.EditModel
+@{
+    ViewData["Title"] = "Update material";
+}
+<h1>@ViewData["Title"]</h1>
+<div class="row">
+    <div class="col-md-4">
+        <section>
+            <form method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Material.Title"></label>
+                    <input asp-for="Material.Title" class="form-control" />
+                    <span asp-validation-for="Material.Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Material.SelfPrice"></label>
+                    <input asp-for="Material.SelfPrice" class="form-control" />
+                    <span asp-validation-for="Material.SelfPrice" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select class="form-select" asp-for="MaterialCategoryId" asp-items="Model.Options"></select>
+                </div>
+
+                <div class="form-group mt-4">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
