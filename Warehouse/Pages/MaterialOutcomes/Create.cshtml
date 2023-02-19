@@ -1,7 +1,7 @@
-﻿@page "{id}"
-@model Warehouse.Web.Pages.Incomes.EditModel
+﻿@page
+@model Warehouse.Web.Pages.MaterialOutcomes.CreateModel
 @{
-	ViewData["Title"] = "Edit income";
+	ViewData["Title"] = "Create outcome";
 }
 <div style="display:none">
 	<select asp-items="Model.Options" id="select-container">
@@ -12,12 +12,12 @@
 		<form method="post">
 			<div class="row mb-4">
 				<div class="form-group col-2">
-					<label asp-for="@Model.Income.IncomeDate" ></label>
-					<input asp-for="@Model.Income.IncomeDate" class="form-control" asp-format="{0:yyyy-MM-dd HH:mm}" />
+					<label asp-for="@Model.Outcome.OutcomeDate"></label>
+					<input asp-for="@Model.Outcome.OutcomeDate" class="form-control" asp-format="{0:yyyy-MM-dd HH:mm}" />
 				</div>
 				<div class="form-group col-4">
-					<label asp-for="@Model.Income.Title"></label>
-					<input asp-for="@Model.Income.Title" class="form-control" />
+					<label asp-for="@Model.Outcome.Title"></label>
+					<input asp-for="@Model.Outcome.Title" class="form-control" />
 				</div>
 			</div>
 
@@ -39,33 +39,6 @@
 					</tr>
 				</thead>
 				<tbody>
-					@{int i = 1;}
-					@foreach (var item in Model.Income.IncomeItems)
-					{
-						<tr id="row-@i">
-							<td>
-								<select asp-items="Model.Options" asp-for="@item.MaterialId"></select>
-							</td>
-							<td>
-								<input asp-for="@item.Price">
-							</td>
-							<td>
-								<input asp-for="@item.Count">
-							</td>
-							<td>
-								<button class="btn btn-sm btn-danger"
-									asp-page-handler="Delete" asp-route-id="@item.Id"
-									onclick="return confirm('Are you sure you want to delete?')"
-									>
-									<i class="bi bi-trash">
-
-									</i>
-								</button>
-							</td>
-						</tr>
-
-						i++;
-					}
 				</tbody>
 			</table>
 
@@ -124,7 +97,6 @@
 			deleteButton.classList.add("btn", "btn-sm", "btn-danger");
 			deleteButton.innerHTML = `<i class="bi bi-trash"></i >`;
 			deleteButton.setAttribute("type", `button`);
-			deleteButton.setAttribute("formaction", `button`);
 			deleteActionCell.appendChild(deleteButton);
 			deleteButton.onclick = function () { OnDeleteRow(row); };
 			let options = getSelectOptions();
@@ -134,12 +106,15 @@
 				select2.add(new Option(options[i].text, options[i].value, false, false));
 			}
 
+
 			$(select2).select2();
 		}
 
 		function getSelectOptions() {
 			return document.getElementById('select-container').options;
 		}
-		
+		function OnDeleteRow(trElement) {
+			trElement.remove();
+		}
 	</script>
 }

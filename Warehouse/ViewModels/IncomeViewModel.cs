@@ -11,8 +11,8 @@ namespace Warehouse.Web.ViewModels
         public DateTime IncomeDate { get; set; } = DateTime.Now;
     }
 
-    public class IncomeItemViewModel
-    {
+    public class IncomeItemViewModel : IItem
+	{
         public int Id { get; set; }
         public int MaterialId { get; set; }
         public double Count { get; set; }

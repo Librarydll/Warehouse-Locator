@@ -1,7 +1,7 @@
-﻿@page "{id}"
-@model Warehouse.Web.Pages.Incomes.EditModel
+﻿@page
+@model Warehouse.Web.Pages.MaterialOutcomes.EditModel
 @{
-	ViewData["Title"] = "Edit income";
+	ViewData["Title"] = "Edit Outcome";
 }
 <div style="display:none">
 	<select asp-items="Model.Options" id="select-container">
@@ -12,18 +12,21 @@
 		<form method="post">
 			<div class="row mb-4">
 				<div class="form-group col-2">
-					<label asp-for="@Model.Income.IncomeDate" ></label>
-					<input asp-for="@Model.Income.IncomeDate" class="form-control" asp-format="{0:yyyy-MM-dd HH:mm}" />
+					<label asp-for="@Model.Outcome.OutcomeDate"></label>
+					<input asp-for="@Model.Outcome.OutcomeDate" class="form-control" asp-format="{0:yyyy-MM-dd HH:mm}" />
 				</div>
 				<div class="form-group col-4">
-					<label asp-for="@Model.Income.Title"></label>
-					<input asp-for="@Model.Income.Title" class="form-control" />
+					<label asp-for="@Model.Outcome.Title"></label>
+					<input asp-for="@Model.Outcome.Title" class="form-control" />
 				</div>
 			</div>
 
-			<table id="income-item-table" class="table table-striped table-bordered table-sm">
+			<table id="Outcome-item-table" class="table table-striped table-bordered table-sm">
 				<thead>
 					<tr>
+						<th>
+							#
+						</th>
 						<th>
 							Material
 						</th>
@@ -39,10 +42,15 @@
 					</tr>
 				</thead>
 				<tbody>
-					@{int i = 1;}
-					@foreach (var item in Model.Income.IncomeItems)
+					@{
+						int i = 1;
+					}
+					@foreach (var item in Model.Outcome.OutcomeItems)
 					{
 						<tr id="row-@i">
+							<td>
+								@i
+							</td>
 							<td>
 								<select asp-items="Model.Options" asp-for="@item.MaterialId"></select>
 							</td>
@@ -55,8 +63,7 @@
 							<td>
 								<button class="btn btn-sm btn-danger"
 									asp-page-handler="Delete" asp-route-id="@item.Id"
-									onclick="return confirm('Are you sure you want to delete?')"
-									>
+									onclick="return confirm('Are you sure you want to delete?')">
 									<i class="bi bi-trash">
 
 									</i>
@@ -75,7 +82,7 @@
 			</button>
 		</form>
 		<button class="btn btn-success"
-				onclick="addRow('income-item-table')">
+				onclick="addRow('Outcome-item-table')">
 			Add
 		</button>
 	</div>
@@ -93,14 +100,16 @@
 			let tBody = $(`#${tableId} tbody`)[0];
 			let row = tBody.insertRow();
 			row.setAttribute("id", `row-${tBody.rows.length}`);
+			let nCell = row.insertCell(0);
+			nCell.appendChild(document.createTextNode(tBody.rows.length));
 			let select2 = document.createElement('select');
 			select2.setAttribute('name', 'MaterialId');
 			select2.style = "width:100%";
 
-			let selectCell = row.insertCell(0);
+			let selectCell = row.insertCell(1);
 			selectCell.appendChild(select2);
 
-			let priceCell = row.insertCell(1);
+			let priceCell = row.insertCell(2);
 			let priceInput = document.createElement('input');
 			priceInput.setAttribute('type', 'number');
 			priceInput.classList.add("form-group");
@@ -110,7 +119,7 @@
 			priceCell.appendChild(priceInput);
 
 
-			let countCell = row.insertCell(2);
+			let countCell = row.insertCell(3);
 			let countInput = document.createElement('input');
 			countInput.setAttribute('type', 'number');
 			countInput.classList.add("form-group");
@@ -119,7 +128,7 @@
 			countInput.setAttribute('name', 'Count');
 			countCell.appendChild(countInput);
 
-			let deleteActionCell = row.insertCell(3);
+			let deleteActionCell = row.insertCell(4);
 			let deleteButton = document.createElement('button');
 			deleteButton.classList.add("btn", "btn-sm", "btn-danger");
 			deleteButton.innerHTML = `<i class="bi bi-trash"></i >`;
@@ -140,6 +149,6 @@
 		function getSelectOptions() {
 			return document.getElementById('select-container').options;
 		}
-		
+
 	</script>
 }

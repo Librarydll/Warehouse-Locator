@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Warehouse.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class Intiial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -459,7 +459,7 @@ namespace Warehouse.Infrastructure.Migrations
                     Price = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
                     Count = table.Column<double>(type: "double", nullable: false),
                     MaterialId = table.Column<int>(type: "int", nullable: false),
-                    OutcomeId = table.Column<int>(type: "int", nullable: true),
+                    OutcomeId = table.Column<int>(type: "int", nullable: false),
                     LastUpdatedAt = table.Column<DateOnly>(type: "date", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
@@ -476,7 +476,8 @@ namespace Warehouse.Infrastructure.Migrations
                         name: "FK_OutcomeItems_Outcomes_OutcomeId",
                         column: x => x.OutcomeId,
                         principalTable: "Outcomes",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 

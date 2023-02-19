@@ -1,4 +1,7 @@
-using Microsoft.AspNetCore.Http.HttpResults;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -6,9 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Warehouse.Domain.Models;
 using Warehouse.Infrastructure.Data;
 using Warehouse.Web.Extensions;
-using Warehouse.Web.ViewModels;
 
-namespace Warehouse.Web.Pages.Incomes
+namespace Warehouse.Web.Pages.MaterialOutcomes
 {
     public class EditModel : PageModel
     {
@@ -19,7 +21,7 @@ namespace Warehouse.Web.Pages.Incomes
 		}
 		public List<SelectListItem> Options { get; set; }
 		[BindProperty]
-		public Income? Income { get; set; }
+		public Outcome? Outcome { get; set; }
 		public async Task OnGetAsync(int id)
 		{
 			Options = await _mainDbContext.Materials.Select(f => new SelectListItem
@@ -27,14 +29,14 @@ namespace Warehouse.Web.Pages.Incomes
 				Text = f.Title,
 				Value = f.Id.ToString()
 			}).ToListAsync();
-			Income = await _mainDbContext.Incomes.AsNoTracking().Include(f=>f.IncomeItems).ThenInclude(f=>f.Material).FirstOrDefaultAsync(x => x.Id == id);
+			Outcome = await _mainDbContext.Outcomes.AsNoTracking().Include(f => f.OutcomeItems).ThenInclude(f => f.Material).FirstOrDefaultAsync(x => x.Id == id);
 		}
 
 		public async Task<IActionResult> OnPostAsync(int id)
 		{
-			var incomeItems = Request.Form.MapItemsFromForm();
-			var income = await _mainDbContext.Incomes.FindAsync(id);
-			foreach (var grouped in incomeItems.GroupBy(x => x.MaterialId))
+			var outcomeItems = Request.Form.MapItemsFromForm();
+			var outcome = await _mainDbContext.Outcomes.FindAsync(id);
+			foreach (var grouped in outcomeItems.GroupBy(x => x.MaterialId))
 			{
 				var wareHouse = await _mainDbContext.MaterialWarehouses.FirstOrDefaultAsync(x => x.MaterialId == grouped.Key);
 				if (wareHouse == null)
@@ -50,22 +52,22 @@ namespace Warehouse.Web.Pages.Incomes
 				}
 				foreach (var item in grouped)
 				{
-					var existed = await _mainDbContext.IncomeItems.FirstOrDefaultAsync(x => x.Id == item.Id);
+					var existed = await _mainDbContext.OutcomeItems.FirstOrDefaultAsync(x => x.Id == item.Id);
 					if (existed == null)
 					{
-						_mainDbContext.IncomeItems.Add(new IncomeItem
+						_mainDbContext.OutcomeItems.Add(new OutcomeItem
 						{
 							Count = item.Count,
-							IncomeId = id,
+							OutcomeId = id,
 							MaterialId = grouped.Key,
 							Price = item.Price,
 						});
-						wareHouse.Count += item.Count;
+						wareHouse.Count -= item.Count;
 					}
 					else
 					{
-						wareHouse.Count -= existed.Count;
-						wareHouse.Count += item.Count;
+						wareHouse.Count += existed.Count;
+						wareHouse.Count -= item.Count;
 						existed.Count = item.Count;
 						_mainDbContext.Entry(existed).State = EntityState.Modified;
 					}
@@ -75,9 +77,9 @@ namespace Warehouse.Web.Pages.Incomes
 					_mainDbContext.Entry(wareHouse).State = EntityState.Modified;
 				}
 			}
-			income.IncomeDate = Income.IncomeDate;
-			income.Title = Income.Title;
-			_mainDbContext.Entry(income).State = EntityState.Modified;
+			outcome.OutcomeDate = Outcome.OutcomeDate;
+			outcome.Title = Outcome.Title;
+			_mainDbContext.Entry(outcome).State = EntityState.Modified;
 			await _mainDbContext.SaveChangesAsync();
 
 			return RedirectToPage("Index");
@@ -85,19 +87,17 @@ namespace Warehouse.Web.Pages.Incomes
 
 		public async Task<IActionResult> OnPostDeleteAsync(int id)
 		{
-			var incomeItem = await _mainDbContext.IncomeItems.FindAsync(id);
-			if (incomeItem ==null)
+			var outcomeItem = await _mainDbContext.OutcomeItems.FindAsync(id);
+			if (outcomeItem == null)
 			{
 				return NotFound();
 			}
-			_mainDbContext.IncomeItems.Remove(incomeItem);
-			var wareHouse = await _mainDbContext.MaterialWarehouses.FirstOrDefaultAsync(x => x.MaterialId == incomeItem.MaterialId);
-			wareHouse.Count -= incomeItem.Count;
-			//wareHouse.CurrentSelfPrice = wareHouse.LastSelfPrice;
+			_mainDbContext.OutcomeItems.Remove(outcomeItem);
+			var wareHouse = await _mainDbContext.MaterialWarehouses.FirstOrDefaultAsync(x => x.MaterialId == outcomeItem.MaterialId);
+			wareHouse.Count += outcomeItem.Count;
 			_mainDbContext.Entry(wareHouse).Property(f => f.Count).IsModified = true;
-			//_mainDbContext.Entry(wareHouse).Property(f => f.CurrentSelfPrice).IsModified = true;
 			await _mainDbContext.SaveChangesAsync();
-			return RedirectToPage(new { id = incomeItem.IncomeId });
+			return RedirectToPage(new { id = outcomeItem.OutcomeId });
 		}
 	}
 }

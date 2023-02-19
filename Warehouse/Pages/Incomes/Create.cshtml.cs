@@ -40,7 +40,7 @@ namespace Warehouse.Web.Pages.Incomes
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var incomeItemViewModels = Request.Form.MapIncomeItemFromForm();
+            var incomeItemViewModels = Request.Form.MapItemsFromForm();
             var income = new Income()
             {
                 IncomeDate = Income.IncomeDate,
@@ -54,7 +54,7 @@ namespace Warehouse.Web.Pages.Incomes
                 var count = grouped.Sum(x => x.Count);
 				if (wareHouse == null)
 				{
-					wareHouse = new MaterialWarehouse()
+					wareHouse = new Domain.Models.MaterialWarehouse()
 					{
 						CurrentSelfPrice = price,
 						MaterialId = grouped.Key,

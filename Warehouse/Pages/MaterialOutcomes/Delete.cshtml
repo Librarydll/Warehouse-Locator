@@ -1,7 +1,7 @@
 ﻿@page "{id}"
-@model Warehouse.Web.Pages.Incomes.DeleteModel
+@model Warehouse.Web.Pages.MaterialOutcomes.DeleteModel
 @{
-	ViewData["Title"] = "Delete income";
+	ViewData["Title"] = "Delete outcome";
 
 }
 <div class="container">
@@ -9,22 +9,25 @@
 		<form method="post">
 			<div class="row mb-4">
 				<div class="form-group col-3">
-					<label asp-for="@Model.Income.IncomeDate"></label>
+					<label asp-for="@Model.Outcome.OutcomeDate"></label>
 					<h2>
-						@Model.Income.IncomeDate.ToString("dd.MM.yyyy HH:mm")
+						@Model.Outcome.OutcomeDate.ToString("dd.MM.yyyy HH:mm")
 					</h2>
 				</div>
 				<div class="form-group col-4">
-					<label asp-for="@Model.Income.Title"></label>
+					<label asp-for="@Model.Outcome.Title"></label>
 					<h2>
-						@Model.Income.Title
+						@Model.Outcome.Title
 					</h2>
 				</div>
 			</div>
 
-			<table id="income-item-table" class="table table-striped table-bordered table-sm">
+			<table id="Outcome-item-table" class="table table-striped table-bordered table-sm">
 				<thead>
 					<tr>
+						<th>
+							#
+						</th>
 						<th>
 							Material
 						</th>
@@ -40,11 +43,14 @@
 					@{
 						int i = 1;
 					}
-					@foreach (var item in Model.Income.IncomeItems)
+					@foreach (var item in Model.Outcome.OutcomeItems)
 					{
 						<tr id="row-@i">
 							<td>
-								@item.Material.Title
+								@i
+							</td>
+							<td>
+								@item.Material?.Title
 							</td>
 							<td>
 								@item.Price
@@ -52,9 +58,7 @@
 							<td>
 								@item.Count
 							</td>
-
 						</tr>
-
 						i++;
 					}
 				</tbody>

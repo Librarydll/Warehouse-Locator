@@ -587,7 +587,7 @@ namespace Warehouse.Infrastructure.Migrations
                     b.Property<int>("MaterialId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("OutcomeId")
+                    b.Property<int>("OutcomeId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
@@ -911,11 +911,15 @@ namespace Warehouse.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Warehouse.Domain.Models.Outcome", null)
+                    b.HasOne("Warehouse.Domain.Models.Outcome", "Outcome")
                         .WithMany("OutcomeItems")
-                        .HasForeignKey("OutcomeId");
+                        .HasForeignKey("OutcomeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Material");
+
+                    b.Navigation("Outcome");
                 });
 
             modelBuilder.Entity("Warehouse.Domain.Models.ReadyProductWarehouse", b =>

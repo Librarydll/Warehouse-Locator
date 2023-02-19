@@ -11,8 +11,8 @@ using Warehouse.Infrastructure.Data;
 namespace Warehouse.Infrastructure.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    [Migration("20230218104952_initial")]
-    partial class initial
+    [Migration("20230219125026_Intiial")]
+    partial class Intiial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -590,7 +590,7 @@ namespace Warehouse.Infrastructure.Migrations
                     b.Property<int>("MaterialId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("OutcomeId")
+                    b.Property<int>("OutcomeId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
@@ -914,11 +914,15 @@ namespace Warehouse.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Warehouse.Domain.Models.Outcome", null)
+                    b.HasOne("Warehouse.Domain.Models.Outcome", "Outcome")
                         .WithMany("OutcomeItems")
-                        .HasForeignKey("OutcomeId");
+                        .HasForeignKey("OutcomeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Material");
+
+                    b.Navigation("Outcome");
                 });
 
             modelBuilder.Entity("Warehouse.Domain.Models.ReadyProductWarehouse", b =>

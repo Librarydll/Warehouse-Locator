@@ -4,7 +4,7 @@ namespace Warehouse.Web.Extensions
 {
 	public static class FormExtensions
 	{
-		public static IEnumerable<IncomeItemViewModel> MapIncomeItemFromForm(this IFormCollection form)
+		public static IEnumerable<IItem> MapItemsFromForm(this IFormCollection form)
 		{
 			for (int i = 0; i < form["MaterialId"].Count; i++)
 			{
@@ -32,7 +32,7 @@ namespace Warehouse.Web.Extensions
 					}
 				}
 				
-				yield return new IncomeItemViewModel
+				yield return new Item
 				{
 					Count = count,
 					MaterialId = materialId,
