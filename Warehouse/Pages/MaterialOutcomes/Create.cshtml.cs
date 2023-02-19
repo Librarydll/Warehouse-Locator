@@ -15,7 +15,7 @@ using Warehouse.Web.ViewModels;
 
 namespace Warehouse.Web.Pages.MaterialOutcomes
 {
-	[Authorize]
+    [Authorize]
     public class CreateModel : PageModel
     {
 		private readonly MainDbContext _mainDbContext;
@@ -33,7 +33,7 @@ namespace Warehouse.Web.Pages.MaterialOutcomes
 
 		public async Task OnGetAsync()
 		{
-			Options = await _mainDbContext.Materials.Select(f => new SelectListItem
+			Options = await _mainDbContext.Materials.Where(x=>!x.IsDeleted).Select(f => new SelectListItem
 			{
 				Text = f.Title,
 				Value = f.Id.ToString()

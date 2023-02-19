@@ -1,9 +1,9 @@
 ﻿@page
-@model Warehouse.Web.Pages.Materials.IndexModel
+@model Warehouse.Web.Pages.ReadyProducts.IndexModel
 @{
-    ViewData["Title"] = "Materials list";
+    ViewData["Title"] = "Ready products list";
 }
-<h2>Materials</h2>
+<h2>Ready prodcuts</h2>
 <p>
     <a asp-page="Create" type="button" class="btn btn-success">Create New</a>
 </p>
@@ -12,26 +12,24 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Materials[0].Title)
-            </th>
+                @Html.DisplayNameFor(model => model.ReadyProducts[0].Title)
+            </th>           
             <th>
-                @Html.DisplayNameFor(model => model.Materials[0].MaterialCategory!.Title)
+                @Html.DisplayNameFor(model => model.ReadyProducts[0].Description)
             </th>
-
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Materials)
+        @foreach (var item in Model.ReadyProducts)
         {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Title)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.MaterialCategory!.Title)
+                    @Html.DisplayFor(modelItem => item.Description)
                 </td>
-
                 <td style="width:10%">
                     <a asp-page="./Edit" class="btn btn-sm btn-primary" asp-route-id="@item.Id">
                         <i class="bi bi-pencil">
@@ -50,17 +48,17 @@
 </table>
 
 @{
-    var prevDisabled = !Model.Materials.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.Materials.HasNextPage ? "disabled" : "";
+    var prevDisabled = !Model.ReadyProducts.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.ReadyProducts.HasNextPage ? "disabled" : "";
 }
 
 <a asp-page="./Index"
-   asp-route-pageIndex="@(Model.Materials.PageIndex - 1)"
+   asp-route-pageIndex="@(Model.ReadyProducts.PageIndex - 1)"
    class="btn btn-primary @prevDisabled">
     Previous
 </a>
 <a asp-page="./Index"
-   asp-route-pageIndex="@(Model.Materials.PageIndex + 1)"
+   asp-route-pageIndex="@(Model.ReadyProducts.PageIndex + 1)"
    class="btn btn-primary @nextDisabled">
     Next
 </a>

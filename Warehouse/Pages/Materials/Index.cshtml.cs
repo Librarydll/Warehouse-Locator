@@ -23,6 +23,7 @@ namespace Warehouse.Web.Pages.Materials
         public async Task<IActionResult> OnGetAsync(string searchingString,int categoryId,int? pageIndex)
         {
             var materials = from m in _dbContext.Materials
+                            where !m.IsDeleted
                             select m;
             if (!string.IsNullOrWhiteSpace(searchingString))
             {

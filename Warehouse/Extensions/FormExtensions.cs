@@ -2,7 +2,7 @@
 
 namespace Warehouse.Web.Extensions
 {
-	public static class FormExtensions
+    public static class FormExtensions
 	{
 		public static IEnumerable<IItem> MapItemsFromForm(this IFormCollection form)
 		{

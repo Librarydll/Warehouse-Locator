@@ -1,0 +1,33 @@
+﻿@page "{id}"
+@model Warehouse.Web.Pages.ReadyProducts.EditModel
+@{
+    ViewData["Title"] = "Create ready product";
+}
+<h1>@ViewData["Title"]</h1>
+<div class="row">
+    <div class="col-md-4">
+        <section>
+            <form method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="ReadyProduct.Title"></label>
+                    <input asp-for="ReadyProduct.Title" class="form-control" />
+                    <span asp-validation-for="ReadyProduct.Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ReadyProduct.Description"></label>
+                    <input asp-for="ReadyProduct.Description" class="form-control" />
+                    <span asp-validation-for="ReadyProduct.Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-4">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

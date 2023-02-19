@@ -9,10 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("MainDatabase");
 
 
-builder.Services.AddDbContext<MainDbContext>(s =>
-{
-    s.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-});
+builder.Services.AddDbContext<MainDbContext>(options =>
+                    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => {
     options.SignIn.RequireConfirmedAccount = false;
     options.Password.RequiredLength = 4;
@@ -21,8 +20,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => {
     options.Password.RequireLowercase = false;
     options.Password.RequireDigit = false;
     //Other options go here
-})
-                .AddEntityFrameworkStores<MainDbContext>();
+}).AddEntityFrameworkStores<MainDbContext>();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

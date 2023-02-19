@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using Warehouse.Domain.Models;
 using Warehouse.Infrastructure.Data;
 
-namespace Warehouse.Web.Pages.Materials
+namespace Warehouse.Web.Pages.ReadyProducts
 {
     public class DeleteModel : PageModel
     {
@@ -15,11 +14,11 @@ namespace Warehouse.Web.Pages.Materials
             _dbContext = mainDbContext;
         }
         [BindProperty]
-        public Material? Material { get; set; }
+        public ReadyProduct? ReadyProduct { get; set; }
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            Material = await _dbContext.Materials.Include(f => f.MaterialCategory).FirstOrDefaultAsync(x => x.Id == id);
-            if (Material == null)
+            ReadyProduct = await _dbContext.ReadyProducts.FindAsync(id);
+            if (ReadyProduct == null)
             {
                 return NotFound();
             }
@@ -29,15 +28,13 @@ namespace Warehouse.Web.Pages.Materials
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
-            var materail = await _dbContext.Materials.FindAsync(id);
-            if (materail == null)
+            var readyProduct = await _dbContext.ReadyProducts.FindAsync(id);
+            if (readyProduct == null)
             {
                 return NotFound();
             }
-            materail.IsDeleted = true;
-            _dbContext.Entry(materail).State = EntityState.Modified;
-            var warehouse = await _dbContext.MaterialWarehouses.FirstOrDefaultAsync(x => x.MaterialId == id);
-
+            readyProduct.IsDeleted = true;
+            _dbContext.Entry(readyProduct).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             await _dbContext.SaveChangesAsync();
             return Redirect("Index");
         }

@@ -1,7 +1,7 @@
 ﻿@page
-@model Warehouse.Web.Pages.Materials.CreateModel
+@model Warehouse.Web.Pages.ReadyProducts.CreateModel
 @{
-    ViewData["Title"] = "Create material";
+    ViewData["Title"] = "Create ready product";
 }
 <h1>@ViewData["Title"]</h1>
 <div class="row">
@@ -10,15 +10,14 @@
             <form method="post">
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="Material.Title"></label>
-                    <input asp-for="Material.Title" class="form-control" />
-                    <span asp-validation-for="Material.Title" class="text-danger"></span>
+                    <label asp-for="ReadyProduct.Title"></label>
+                    <input asp-for="ReadyProduct.Title" class="form-control" />
+                    <span asp-validation-for="ReadyProduct.Title" class="text-danger"></span>
                 </div>
-            
                 <div class="form-group">
-                    <label >Category</label>
-                    <select  class="form-select" asp-for="MaterialCategoryId" asp-items="Model.Options"></select>
-
+                    <label asp-for="ReadyProduct.Description"></label>
+                    <input asp-for="ReadyProduct.Description" class="form-control" />
+                    <span asp-validation-for="ReadyProduct.Description" class="text-danger"></span>
                 </div>
 
                 <div class="form-group mt-4">

@@ -11,7 +11,6 @@ namespace Warehouse.Web.Pages.Materials
     public class EditModel : PageModel
     {
         private readonly MainDbContext _dbContext;
-
         public EditModel(MainDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -44,7 +43,6 @@ namespace Warehouse.Web.Pages.Materials
             Material = new MaterialViewModel
             {
                 MaterialCategoryId = material.MaterialCategoryId,
-                SelfPrice = material.SelfPrice,
                 Title = material.Title,
             };
 

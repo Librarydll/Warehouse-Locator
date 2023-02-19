@@ -22,7 +22,7 @@ namespace Warehouse.Web.Pages.Incomes
 		public Income? Income { get; set; }
 		public async Task OnGetAsync(int id)
 		{
-			Options = await _mainDbContext.Materials.Select(f => new SelectListItem
+			Options = await _mainDbContext.Materials.Where(x=>!x.IsDeleted).Select(f => new SelectListItem
 			{
 				Text = f.Title,
 				Value = f.Id.ToString()

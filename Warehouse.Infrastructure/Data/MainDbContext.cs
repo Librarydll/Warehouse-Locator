@@ -8,24 +8,15 @@ namespace Warehouse.Infrastructure.Data
 {
     public class MainDbContext : IdentityDbContext<ApplicationUser>
     {
-        private readonly string _connectionString;
-        public MainDbContext(DbContextOptions dbContextOptions) :base(dbContextOptions)
+        public MainDbContext(DbContextOptions<MainDbContext> dbContextOptions) : base(dbContextOptions)
         {
 
         }
-        public MainDbContext(MainDbContextOptions options)
-        {
-            _connectionString = options.ConnectionString ?? ConnectionStrings.LocalMain;
-        }
+        //public MainDbContext(DbContextOptions dbContextOptions) :base(dbContextOptions)
+        //{
 
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-        {
-            if (options.IsConfigured)
-                return;
+        //}
 
-            DbContextHelpers.ConfigureMySql(_connectionString, options);
-
-        }
         public DbSet<AnotherExpense> AnotherExpenses { get; set; }
         public DbSet<Brigade> Brigades { get; set; }
         public DbSet<Income> Incomes { get; set; }
