@@ -1,7 +1,7 @@
 ﻿@page
-@model Warehouse.Web.Pages.MaterialWarehouse.IndexModel
+@model Warehouse.Web.Pages.ReadyProductsWarehouse.IndexModel
 @{
-    ViewData["Title"] = "Materials warehouse";
+    ViewData["Title"] = "Ready products warehouse";
 }
 <h2>Warehouse</h2>
 
@@ -9,37 +9,42 @@
 <table class="table table-bordered table-striped table-sm">
     <thead>
         <tr>
-            <th>
-                Material title
+             <th>
+                #
             </th>
             <th>
-                Category title
+                 Title
+            </th>
+            <th>
+                Batch number
             </th>
             <th>
                 Count
             </th>
-            <th>
-                Price
-            </th>
+         
         </tr>
     </thead>
     <tbody>
+        @{
+            int i = 1;
+        }
         @foreach (var item in Model.Warehouses)
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.MaterialTitle)
+                    @i
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CategoryTitle)
+                    @Html.DisplayFor(modelItem => item.ReadyProductTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BatchNumber)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Count)
                 </td>
-                 <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
             </tr>
+            i++;
         }
     </tbody>
 </table>
@@ -59,4 +64,3 @@
    class="btn btn-primary @nextDisabled">
     Next
 </a>
-

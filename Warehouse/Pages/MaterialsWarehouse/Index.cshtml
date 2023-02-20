@@ -1,0 +1,62 @@
+﻿@page
+@model Warehouse.Web.Pages.MaterialsWarehouse.IndexModel
+@{
+    ViewData["Title"] = "Materials warehouse";
+}
+<h2>Warehouse</h2>
+
+
+<table class="table table-bordered table-striped table-sm">
+    <thead>
+        <tr>
+            <th>
+                Material title
+            </th>
+            <th>
+                Category title
+            </th>
+            <th>
+                Count
+            </th>
+            <th>
+                Price
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Warehouses)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaterialTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Count)
+                </td>
+                 <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.Warehouses.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Warehouses.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.Warehouses.PageIndex - 1)"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.Warehouses.PageIndex + 1)"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>
+

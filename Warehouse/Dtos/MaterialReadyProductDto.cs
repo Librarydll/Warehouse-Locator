@@ -6,6 +6,6 @@
 		public double Count { get; set; }
 		public string? MaterialTitle { get; set; }
 		public int MaterialId { get; set; }
-		public string CategoryTitle { get; set; }
+		public string? CategoryTitle { get; set; }
 	}
 }

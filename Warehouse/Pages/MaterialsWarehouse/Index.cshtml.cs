@@ -7,7 +7,7 @@ using Warehouse.Infrastructure.Data;
 using Warehouse.Web.Dtos;
 using Warehouse.Web.Models;
 
-namespace Warehouse.Web.Pages.MaterialWarehouse
+namespace Warehouse.Web.Pages.MaterialsWarehouse
 {
 	public class IndexModel : PageModel
 	{
